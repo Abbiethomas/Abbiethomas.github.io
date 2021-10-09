@@ -10,6 +10,8 @@
 	
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif;">
+	<a name="top"></a>
+
 	<!-- NAV -->
     <ul class="nav nav-pills nav-justified">
       <li class="nav-item">
@@ -21,7 +23,7 @@
       	<li><a class="dropdown-item" style=".dropdown {text-align:center;}" href="athona.html">Athona Web Project</a></li>
 		<li><a class="dropdown-item" href="pulsar.html">Pulsar Classification</a></li>
       	<li><a class="dropdown-item active bg-secondary" href="database.html">Database Project (IP)</a></li>
-		<li><a class="dropdown-item" href="hci.html">HCI Project (IP)</a></li>
+		<li><a class="dropdown-item" href="hci.html">Human Computer Interaction Project (IP)</a></li>
     	</ul>
       </li>
       <li class="nav-item">
@@ -31,6 +33,51 @@
         <a class="nav-link text-dark" href="education.html">Education</a>
       </li>
     </ul>
-
+	<!-- Main Content-->
+	<div class="container-fluid bg-light p-0" style="height:100%;">
+		<!--Overview-->
+		<div class="row p-5 pb-0 justify-content-center">
+			<div class="col-sm-6 p-5 pb-0 bg-white">
+				<h4>Database Project</h4>
+			</div>
+			<div class="col-sm-2 p-5 pb-0 bg-white d-flex justify-content-end">
+				<a class="btn disabled" target="_blank" href="#" style="color:white; background-color: #4E9FF4;">In Progress</a>
+			</div>
+		</div>
+		<div class="row px-5 justify-content-center">
+			<div class="col-sm-8 px-5 pb-3 bg-white">
+				<h6><hr></h6><p><i>1. Project Description</i></p>
+				<p>The Georgia secretary of state releases election data every year in which there is an election. (https://sos.ga.gov/index.php/elections) Data is also released about the demographic makeup of the electorate, voter turnout by demographic, and county-level data. The formatting of this data is inconsistent and stored in various excel and csv files which can be difficult to extract insights from. Our goal is to build a database of election data to quickly serve various analytical needs of the public. A relational database would be able to dynamically pull queries from across different election years and contests to quickly find trends. The database would store the following types of records across various tables:</p>
+				<ul>
+					<li>Contest Results by County (A contest is a single question on a ballot)
+					<li>Voter Registration and turnout by county, race, gender, and age group</li>
+					<li>Candidate Information including results by County and Party</li>
+					<li>Shapefiles for dynamically plotting and displaying data</li>
+					<li>Baseline demographic information from US Census (and other sources)</li>
+					<li>Contest Information by Election Year</li>
+				</ul>
+				<p>The web portal would allow for convenient querying, downloading, and visualization of Georgia election data.</p>
+				
+				<p><i>2. Define the Client</i></p>
+				<p>Mainly, our client will be anybody who is interested in or needs election data to make decisions on future elections or analyze past ones. An example of a client would be a campaign trying to look at previous election data to see how they can use that to help themselves win in the next election. Also, a client could be anybody who is interested in election data and would like to see how the previous elections turned out and how they changed over time according to race, gender, county, etc. We believe this could also help groups looking to create a more fair and representative voting population in these counties get a greater sense of the actual turnout already occurring. We would like to reach out to local nonprofits, whose focus is fighting voter suppression, to see if they would have interest in our database after its creation.</p>
+				
+				<p><i>3. Database Sample Questions</i></p>
+				<ul>
+					<li>What are the election turnout rates by race, gender, county, avg. income, and population density?
+					<li>Who were the candidates (and parties) for a specific election contest?</li>
+					<li>Track changes in results by party across different elections</li>
+					<li>What are the election results by county?</li>
+					<li>Track changes in results over time with demographic changes over time</li>
+					<li>Which age group has the highest voter turnout?</li>
+					<li>Which elections are getting the highest voter turnout rates? (Primary, General, Runoffs)</li>
+				</ul>
+				<a href="#top">Return to Top</a>
+				
+			</div>
+		</div>
+	
+	
+	</div>
+	
 </body>
 </html>
