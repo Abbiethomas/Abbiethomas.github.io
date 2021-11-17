@@ -46,7 +46,7 @@
 		</div>
 		<div class="row px-5 justify-content-center">
 			<div class="col-sm-8 px-5 pb-3 bg-white">
-				<h6><hr></h6><p><i>1. Project Description</i></p>
+				<h6><hr></h6><p><b><i>Project Description</i></b></p>
 				<p>The Georgia secretary of state releases election data every year in which there is an election. Data can be found <a href="https://sos.ga.gov/index.php/elections" download target="_blank">here</a>. Data is also released about the demographic makeup of the electorate, voter turnout by demographic, and county-level data. The formatting of this data is inconsistent and stored in various excel and csv files which can be difficult to extract insights from. Our goal is to build a database of election data to quickly serve various analytical needs of the public. A relational database would be able to dynamically pull queries from across different election years and contests to quickly find trends. The database would store the following types of records across various tables:</p>
 				<ul>
 					<li>Contest Results by County (A contest is a single question on a ballot)
@@ -58,10 +58,10 @@
 				</ul>
 				<p>The web portal would allow for convenient querying, downloading, and visualization of Georgia election data.</p>
 				
-				<p><i>2. Define the Client</i></p>
+				<p><b><i>Define the Client</i></b></p>
 				<p>Mainly, our client will be anybody who is interested in or needs election data to make decisions on future elections or analyze past ones. An example of a client would be a campaign trying to look at previous election data to see how they can use that to help themselves win in the next election. Also, a client could be anybody who is interested in election data and would like to see how the previous elections turned out and how they changed over time according to race, gender, county, etc. We believe this could also help groups looking to create a more fair and representative voting population in these counties get a greater sense of the actual turnout already occurring. We would like to reach out to local nonprofits, whose focus is fighting voter suppression, to see if they would have interest in our database after its creation.</p>
 				
-				<p><i>3. Database Sample Questions</i></p>
+				<p><b><i>Database Sample Questions</i></b></p>
 				<ul>
 					<li>What are the election turnout rates by race, gender, county, avg. income, and population density?
 					<li>Who were the candidates (and parties) for a specific election contest?</li>
@@ -72,12 +72,402 @@
 					<li>Which elections are getting the highest voter turnout rates? (Primary, General, Runoffs)</li>
 				</ul>
 				
-				<p><i>4. ER Diagram</i></p>
+				<p><b><i>ER Diagram</i></b></p>
 				<img src="er.png" style="width:100%;">
 				
-				<a href="#top">Return to Top</a>
+				<p><b><i>Relational Schema</i></b></p>
+				<img src="relational-schema.png" style="width:100%;">
 				
+				<p><b><i>Data Dictionary</i></b></p>
 				
+				<p>contests</p>
+				<table class="table table-bordered">
+					<tr class="table-light">
+						<th>Column</th>
+						<th>Data Type</th>
+						<th>Required</th>
+						<th>Unique</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td><u>contest_id</u></td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Contest Identification Number</td>
+					</tr>
+					<tr>
+						<td>contest_name</td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Contest Name</td>
+					</tr>
+					<tr>
+						<td>contest_year</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Contest Year</td>
+					</tr>
+					<tr>
+						<td>contest_month</td>
+						<td>CHAR(3)</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Contest Month</td>
+					</tr>
+				</table>
+				
+				<p>candidates</p>
+				<table class="table table-bordered">
+					<tr class="table-light">
+						<th>Column</th>
+						<th>Data Type</th>
+						<th>Required</th>
+						<th>Unique</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td><u>candidate_id</u></td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Composite primary key (candidate_name, contest_id).<br>Candidate Identification Number</td>
+					</tr>
+					<tr>
+						<td>candidate_name</td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Candidate Name</td>
+					</tr>
+					<tr>
+						<td>party</td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Candidate Party</td>
+					</tr>
+					<tr>
+						<td>contest_id</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Foreign key (contests)<br>Contest Identification Number</td>
+					</tr>
+				</table>
+				
+				<p>results_by_county</p>
+				<table class="table table-bordered">
+					<tr class="table-light">
+						<th>Column</th>
+						<th>Data Type</th>
+						<th>Required</th>
+						<th>Unique</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td><u>result_id</u></td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Result Identification Number</td>
+					</tr>
+					<tr>
+						<td>candidate_id</td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Foreign key (candidates)<br>Candidate Identification Number</td>
+					</tr>
+					<tr>
+						<td>county_fips_code</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Foreign Key (counties)<br>Federal Information Processing Standards code which uniquely identified counties</td>
+					</tr>
+					<tr>
+						<td>registered_voters</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Number of registered voters within the county</td>
+					</tr>
+					<tr>
+						<td>election_day</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Election date within the county</td>
+					</tr>
+					<tr>
+						<td>absentee_by_mail</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Number of absentee by mail votes within the county</td>
+					</tr>
+					<tr>
+						<td>advance_in_person</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Number of advance in person mail votes within the county</td>
+					</tr>
+					<tr>
+						<td>provisional</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Number of provisional votes within the county</td>
+					</tr>
+					<tr>
+						<td>total_votes</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Total number of votes within the county</td>
+					</tr>
+				</table>
+				
+				<p>counties</p>
+				<table class="table table-bordered">
+					<tr class="table-light">
+						<th>Column</th>
+						<th>Data Type</th>
+						<th>Required</th>
+						<th>Unique</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td><u>county_fips_code</u></td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Federal Information Processing Standards code which uniquely identified counties</td>
+					</tr>
+					<tr>
+						<td>county_state_code</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>County State Identification Number</td>
+					</tr>
+					<tr>
+						<td>county_name</td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>County name</td>
+					</tr>
+					<tr>
+						<td>shapefile</td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>County geospatial data formatted for geographic information system (GUS) use</td>
+					</tr>
+				</table>
+				
+				<p>county_turnout</p>
+				<table class="table table-bordered">
+					<tr class="table-light">
+						<th>Column</th>
+						<th>Data Type</th>
+						<th>Required</th>
+						<th>Unique</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td><u>county_turnout_id</u></td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Composite primary key (county_fips_code, election_year, election_month)<br>County Turnout Identification Number</td>
+					</tr>
+					<tr>
+						<td>county_fips_code</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Foreign key (counties)Federal Information Processing Standards code which uniquely identifies counties</td>
+					</tr>
+					<tr>
+						<td>race</td>
+						<td>CHAR(3)</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>County race turnout</td>
+					</tr>
+					<tr>
+						<td>gender</td>
+						<td>CHAR(1)</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>County gender turnout</td>
+					</tr>
+					<tr>
+						<td>age_grp</td>
+						<td>CHAR(5)</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>County age group turnout</td>
+					</tr>
+					<tr>
+						<td>registered</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Number of citizens within the county registered to vote</td>
+					</tr>
+					<tr>
+						<td>voted</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Number of citizens within the county that voted</td>
+					</tr>
+				</table>
+				
+				<p>precinct_turnout</p>
+				<table class="table table-bordered">
+					<tr class="table-light">
+						<th>Column</th>
+						<th>Data Type</th>
+						<th>Required</th>
+						<th>Unique</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td><u>precinct_turnout_id</u></td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Composite primary key (county_turnout_id, precinct_id)<br>Precinct Turnout Identification Number</td>
+					</tr>
+					<tr>
+						<td>county_turnout_id</td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Foreign key (county_turnout)<br>County Turnout Identification Number</td>
+					</tr>
+					<tr>
+						<td>county_fips_code</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Foreign key (counties)<br>Federal Information Processing Standards code which uniquely identified counties</td>
+					</tr>
+					<tr>
+						<td>precinct_id</td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Precinct Turnout Identification Number</td>
+					</tr>
+					<tr>
+						<td>race</td>
+						<td>CHAR(3)</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Precinct race turnout</td>
+					</tr>
+					<tr>
+						<td>gender</td>
+						<td>CHAR(1)</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Precinct gender turnout</td>
+					</tr>
+					<tr>
+						<td>registered</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Number of citizens within the precinct registered to vote</td>
+					</tr>
+					<tr>
+						<td>voted</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Number of citizens within the precinct that voted</td>
+					</tr>
+					
+				</table>
+				
+				<p>population</p>
+				<table class="table table-bordered">
+					<tr class="table-light">
+						<th>Column</th>
+						<th>Data Type</th>
+						<th>Required</th>
+						<th>Unique</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td><u>census_id</u></td>
+						<td>VARCHAR</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Composite primary key (year, county_fips_code, aggrp, race, gender)<br>Census Identification Number</td>
+					</tr>
+					<tr>
+						<td>county_fips_code</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>yes</td>
+						<td>Foreign key (counties)<br>Federal Information Processing Standards code which uniquely identifies counties</td>
+					</tr>
+					<tr>
+						<td>year</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Population year</td>
+					</tr>
+					<tr>
+						<td>aggrp</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Population age group - literal age i.e., 0,1,2,3</td>
+					</tr>
+					<tr>
+						<td>race</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Population race</td>
+					</tr>
+					<tr>
+						<td>gender</td>
+						<td>CHAR(1)</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Population gender</td>
+					</tr>
+					<tr>
+						<td>county_turnout.age_grp</td>
+						<td>CHAR(5)</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>County turnout age group - categorized in groups i.e., 18-24,25-29</td>
+					</tr>
+					<tr>
+						<td>population</td>
+						<td>INT</td>
+						<td>yes</td>
+						<td>no</td>
+						<td>Population number</td>
+					</tr>
+					
+				</table>
+			
+				<a href="#top">Return to Top</a>				
 			</div>
 		</div>
 	
